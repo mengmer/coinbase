@@ -5,8 +5,9 @@
 # @Site : 
 # @File : backtest_bolling.py
 # @Software: PyCharm
-
-from backtest_engine import *
+import traceback
+from backtest_engine import backtest_coin_stg
+from setting.setting import settings
 
 if __name__ == "__main__":
-    backtest_coin_stg(symbol='BTC-USDT_15m')
+    df_return = backtest_coin_stg(symbol=settings.symbol)

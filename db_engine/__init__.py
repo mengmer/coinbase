@@ -3,7 +3,7 @@
 # @Time : 2022/9/18 15:23
 # @Author : Meng
 # @Site : 
-# @File : __init__.py
+# @File : setting.py
 # @Software: PyCharm
 
 from .coin_tools import *
