@@ -9,6 +9,7 @@
 计算策略信号的函数
 """
 import pandas as pd
+from functools import reduce
 import numpy as np
 
 
@@ -76,7 +77,7 @@ def signal_simple_bolling(df, para=None):
 
 
 # 策略参数组合
-def signal_simple_bolling_para_list(m_list=range(10, 1000, 100), n_list=None):
+def signal_simple_bolling_para_list(m_list=range(10, 1000, 10), n_list=None):
     """
     产生布林 策略的参数范围
     :param m_list:
@@ -84,9 +85,8 @@ def signal_simple_bolling_para_list(m_list=range(10, 1000, 100), n_list=None):
     :return:
     """
     if n_list is None:
-        n_list = [i / 10 for i in list(np.arange(5, 50, 10))]
+        n_list = [i / 10 for i in list(np.arange(5, 50, 1))]
     para_list = []
-
     for m in m_list:
         for n in n_list:
             para = [m, n]
@@ -155,6 +155,9 @@ def signal_simple_turtle(df, para=None):
 
 # 策略参数组合
 def signal_simple_turtle_para_list(n1_list=range(10, 1000, 10), n2_list=range(10, 1000, 10)):
+    """
+    1
+    """
     para_list = []
 
     for n1 in n1_list:
@@ -165,4 +168,5 @@ def signal_simple_turtle_para_list(n1_list=range(10, 1000, 10), n2_list=range(10
             para_list.append(para)
 
     return para_list
+
 

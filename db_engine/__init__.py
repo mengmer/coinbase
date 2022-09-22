@@ -6,5 +6,4 @@
 # @File : setting.py
 # @Software: PyCharm
 
-from .coin_tools import *
 from .db_coin import *

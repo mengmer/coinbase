@@ -4,7 +4,7 @@
 # @Time : 2022/8/3 10:21
 # @Author : Meng
 
-from coin_tools import *
+from util.cointools import *
 
 
 def get_coin_his_data(exchange, symbol, time_interval, start_time=None, end_time=None, path=None):

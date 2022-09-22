@@ -16,6 +16,18 @@ import time
 pd.set_option('expand_frame_repr', False)  # 当列太多时不换行
 
 
+def make_para_list(lists):
+    """输入多个列表组成的列表, 输出其中每个列表所有元素可能的所有排列组合
+    code用于分隔每个元素"""
+
+    def myfunc(list1, list2):
+        """
+        myfunc
+        """
+        return [[i, j] for i in list1 for j in list2]
+    return reduce(myfunc, lists)
+
+
 def cal_win_rate(return_series):
     """
     计算胜率
@@ -61,7 +73,7 @@ def sharpe_raio(return_series, stock=False, coin=False):
     return (return_series.mean() * math.sqrt(n)) / return_series.std()
 
 
-def lists_combination(lists, code='_'):
+def lists_combination(lists, code=' '):
     """输入多个列表组成的列表, 输出其中每个列表所有元素可能的所有排列组合
     code用于分隔每个元素"""
 

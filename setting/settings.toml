@@ -1,5 +1,5 @@
 # 策略名
-strategy_name = "bolling"
+strategy_name = "simple_bolling"
 # 账户名
 account_id = 1
 # 交易币种
