@@ -114,12 +114,11 @@ def signal_simple_turtle(df, para=None):
     df['open_close_high'] = df[['open', 'close']].max(axis=1)
     df['open_close_low'] = df[['open', 'close']].min(axis=1)
     # 最近n1日的最高价、最低价
-    df['n1_high'] = df['open_close_high'].rolling(n1, min_periods=1).max()
-    df['n1_low'] = df['open_close_low'].rolling(n1, min_periods=1).min()
+    df['n1_high'] = df['open_close_high'].rolling(n1).max()
+    df['n1_low'] = df['open_close_low'].rolling(n1).min()
     # 最近n2日的最高价、最低价
-    df['n2_high'] = df['open_close_high'].rolling(n2, min_periods=1).max()
-    df['n2_low'] = df['open_close_low'].rolling(n2, min_periods=1).min()
-
+    df['n2_high'] = df['open_close_high'].rolling(n2).max()
+    df['n2_low'] = df['open_close_low'].rolling(n2).min()
     # ===找出做多信号
     # 当天的收盘价 > n1日的最高价，做多
     condition = (df['close'] > df['n1_high'].shift(1))

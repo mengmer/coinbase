@@ -8,11 +8,12 @@ from .Signals import *
 from .Position import *
 from .Evaluate import *
 import warnings
+import sys
 
 warnings.filterwarnings("ignore")
 
 
-def backtest_coin_stg(symbol, para_list, pools=4):
+def backtest_coin_stg(stg, symbol, para_list, pools=4):
     """
     多次循环回测
     """
@@ -47,7 +48,7 @@ def backtest_coin_stg(symbol, para_list, pools=4):
     returns = []
     for para in para_list:
         returns.append(pool.apply_async(func=backtest_coin_stg_by_one_loop,
-                                        kwds=({'para': para, 'df_signal': df}),
+                                        kwds=({'stg': stg, 'para': para, 'df_coin': df}),
                                         error_callback=print_error))
     pool.close()
     pool.join()
@@ -58,12 +59,13 @@ def backtest_coin_stg(symbol, para_list, pools=4):
     return df_return
 
 
-def backtest_coin_stg_by_one_loop(para, df_signal=None):
+def backtest_coin_stg_by_one_loop(stg, para, df_coin=None, symbol=None):
     """
     单次循环回测
     """
-    if df_signal is None:
-        df = pd.read_csv('./data/binance/spot/2018-01-01_2022-09-09/%s.csv' % settings.symbol)
+    symbol = settings.symbol if symbol is None else symbol
+    if df_coin is None:
+        df = pd.read_csv('./data/binance/spot/2018-01-01_2022-09-09/%s.csv' % symbol)
         df['candle_begin_time'] = pd.to_datetime(df['candle_begin_time'])
         # df = pd.read_hdf('../data/%s.h5' % symbol, key='df')
         # 任何原始数据读入都进行一下排序、去重，以防万一
@@ -86,10 +88,12 @@ def backtest_coin_stg_by_one_loop(para, df_signal=None):
         df = period_df[['candle_begin_time', 'open', 'high', 'low', 'close', 'volume']]
         df = df[df['candle_begin_time'] >= pd.to_datetime('2017-01-01')]
         df.reset_index(inplace=True, drop=True)
-        df_signal = df.copy()
-    _df = df_signal.copy()
+        df_coin = df.copy()
+    _df = df_coin.copy()
     # 计算交易信号
-    _df = signal_simple_bolling(_df, para=para)
+    func = getattr(sys.modules[__name__], 'signal_' + stg)
+    _df = func(_df, para=para)
+    # _df = signal_simple_bolling(_df, para=para)
     # 计算实际持仓
     _df = position_for_OKEx_future(_df)
     # 计算资金曲线
